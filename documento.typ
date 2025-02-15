@@ -105,6 +105,36 @@ DS18B20: Sensor de temperatura digital com alta precisão, utilizando comunicaç
 #pagebreak()
 = Metodologia
 
+A metodologia adotada para o desenvolvimento do sistema modular de coleta de dados da qualidade do ar envolveu um planejamento detalhado e uma execução integrada entre as diversas frentes do projeto, garantindo que o hardware, firmware, backend e frontend fossem desenvolvidos de maneira colaborativa e iterativa. 
+
+== Etapas do Desenvolvimento
+
+=== Levantamento de Requisitos e Planejamento
+
+Com base nos objetivos gerais e específicos, foi realizada uma análise detalhada das necessidades do projeto, considerando a importância do monitoramento ambiental e a relevância dos dados coletados. Inicialmente, foram analisados os objetivos e definidos os componentes essenciais, como os sensores DS18B20, BMP280, MQ-2, MQ-7, DHT-22 e LDR, além da escolha do microcontrolador ESP32, considerando fatores como custo, flexibilidade e compatibilidade. O estudo dos protocolos de comunicação revelou que o MQTT era o mais adequado, devido à sua leveza e eficiência na transmissão dos dados, especialmente em redes com largura de banda restrita.
+
+=== Desenvolvimento do Hardware
+
+No desenvolvimento do hardware, os circuitos foram projetados e montados para integrar os sensores ao ESP32, com atenção especial à estabilidade dos sinais e à interface entre os dispositivos. Após a montagem, foram realizados testes iniciais para verificar o funcionamento individual dos sensores e a integridade da conexão com o microcontrolador, permitindo ajustes e refinamentos que garantiram a precisão na coleta dos dados ambientais.
+
+=== Implementação do Firmware
+
+A implementação do firmware envolveu a criação de bibliotecas modulares para cada sensor, facilitando a manutenção e a expansão do sistema, além do desenvolvimento de código específico para o ESP32, que coletava os dados e os transmitia via MQTT para a plataforma central. Testes unitários asseguraram o correto funcionamento de cada módulo e a eficácia da comunicação entre os sensores e o microcontrolador.
+
+=== Desenvolvimento do Backend
+
+No backend, foi criado um banco de dados para armazenar todas as informações coletadas, o que possibilitou o gerenciamento, a consulta e a análise histórica dos dados. Paralelamente, desenvolvemos uma API utilizando a linguagem Go, escolhida por suas vantagens atuais, como alto desempenho, escalabilidade e suporte robusto para aplicações web modernas. A estruturação das mensagens MQTT, com a definição de formatos e símbolos delimitadores, foi essencial para a correta interpretação e armazenamento dos dados no banco.
+
+=== Desenvolvimento do Frontend
+
+Para a camada de frontend, projetamos uma interface web intuitiva e responsiva que proporcionasse uma experiência interativa ao usuário. A escolha das tecnologias React JS e Tailwind CSS permitiu uma construção ágil, moderna e de alta performance, facilitando a manutenção e a evolução da interface. A integração entre o frontend e a API garantiu que os dados fossem exibidos em tempo real e que análises históricas pudessem ser realizadas com facilidade. Testes de usabilidade foram realizados para identificar possíveis melhorias e assegurar a facilidade de uso da plataforma.
+
+=== Integração e Validação do Sistema
+
+Ao final, a integração de todas as camadas do sistema foi cuidadosamente validada por meio de testes que verificaram a comunicação eficiente via MQTT e a robustez do fluxo completo de dados, desde a coleta até a exibição. Essa abordagem colaborativa e iterativa permitiu a identificação precoce de problemas e a implementação de soluções eficazes, resultando em um sistema robusto, escalável e capaz de atender aos desafios do monitoramento da qualidade do ar com tecnologias modernas e eficientes.
+
+A metodologia adotada enfatizou a importância do trabalho em equipe e da comunicação constante entre as diversas frentes do projeto. Reuniões periódicas, revisões de progresso e feedback contínuo foram essenciais para alinhar as expectativas e solucionar desafios de forma colaborativa, garantindo que todas as etapas se integrassem harmoniosamente.
+
 
 
 #pagebreak()
