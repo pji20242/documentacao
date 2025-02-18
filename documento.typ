@@ -102,6 +102,58 @@ DS18B20: Sensor de temperatura digital com alta precisão, utilizando comunicaç
 
 - LDR: Resistor dependente de luz utilizado para medir a intensidade luminosa do ambiente.
 
+== Fundamentação do Frontend
+
+O desenvolvimento do frontend do sistema modular de coleta de dados da qualidade do ar teve como objetivo principal criar uma interface intuitiva, responsiva e eficiente para a visualização dos dados coletados pelos sensores. Para alcançar esses objetivos, foram adotadas tecnologias modernas que garantem boa performance, escalabilidade e facilidade de manutenção.
+
+=== Tecnologias Utilizadas
+
+A escolha das tecnologias para o frontend considerou aspectos como facilidade de desenvolvimento, performance e compatibilidade com a arquitetura do projeto. As principais tecnologias utilizadas foram:
+
+- React.js: Biblioteca JavaScript utilizada para a construção da interface do usuário de forma modular e reutilizável. Sua abordagem baseada em componentes facilita a manutenção e evolução do sistema.
+
+- Tailwind CSS: Framework CSS utilizado para estilização da interface, proporcionando uma abordagem eficiente e flexível na personalização do design.
+
+- Vite: Ferramenta utilizada para o build e desenvolvimento do frontend, garantindo maior velocidade e otimização na entrega do código ao usuário.
+
+- Axios: Biblioteca para realizar requisições HTTP e facilitar a comunicação entre o frontend e a API do backend.
+
+- Recharts: Biblioteca para a visualização gráfica dos dados coletados pelos sensores, permitindo a criação de gráficos dinâmicos e interativos.
+
+=== Estrutura do Frontend
+
+O frontend foi projetado para fornecer uma experiência fluida e responsiva aos usuários, garantindo a apresentação eficiente dos dados coletados. A estrutura principal foi dividida em três seções:
+
+- Página Principal: Exibe um mapa que mostra a localização dos dispositivos do usuário em questão.
+
+- Cooperativas: Tela que o administrador do sistema pode visualizar todas as cooperativas cadastradas e suas respectivas informações.
+
+- Usuários: Tela em que o dono da cooperativa pode acessar e gerenciar as informações dos usuários de sua cooperativa.
+
+- Dispositivos: Mostra cada dispositivo que o usuário tiver, também pode direcionar para visualizar informações detalhadas das medições dos sensores, exibindo os dados coletados pelos sensores em tempo real, utilizando gráficos interativos e indicadores numéricos. Permitindo a visualização de dados passados, possibilitando a análise de tendências e padrões ambientais.
+
+=== Comunicação com o Backend
+
+A interação entre o frontend e o backend foi implementada através de uma API REST, permitindo o consumo dos dados processados pelo servidor.
+O fluxo de comunicação segue os seguintes passos:
+#linebreak()
+1. O frontend realiza uma requisição HTTP à API para obter os dados coletados.
+
+2. A API retorna as informações em formato JSON.
+
+3. O frontend processa os dados e os exibe de maneira visualmente compreensível para o usuário.
+
+#linebreak()
+A escolha das tecnologias e a estruturação do frontend proporcionam diversos benefícios ao projeto, tais como:
+
+- Responsividade: A interface se adapta a diferentes tamanhos de tela, garantindo uma boa experiência de uso em dispositivos móveis e desktops.
+
+- Performance otimizada: O uso de React.js e Vite melhora o tempo de carregamento da aplicação, proporcionando uma navegação fluida.
+
+- Modularidade: A abordagem baseada em componentes facilita a manutenção e expansão da aplicação.
+
+- Atualização em tempo real: Permitindo que os dados sejam exibidos de forma dinâmica, sem a necessidade de recarregar a página
+
 #pagebreak()
 = Metodologia
 
