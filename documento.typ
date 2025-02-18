@@ -38,70 +38,45 @@ Fornecer documentação completa para que outros desenvolvedores possam replicar
 #pagebreak()
 = Fundamentação Teórica
 Como o projeto tem um escopo grande , foi fundamental dividir este projeto em partes menores.
-Assim o projeto foi dividido em partes menóres, sendo essas o frontend, hardware , backend. Será discutido mais a fundo cada frente desse projeto mais á frente.
+Assim o projeto foi dividido em partes menores, sendo essas o frontend, hardware , backend. Será discutido mais a fundo cada frente desse projeto mais á frente.
 
 Com essa divisão de tarefas possibilitou que os diferentes grupos tivessem melhor controle para fazer suas pesquisas e decisões em relação ao que era melhor para o projeto.
 
-== Fundamentação do hardware
-Dentro do hardware houveram diversos desafios relacionados ao sensores que seriam necessários, aos protocolos de comunicação, ao tipo de transmissão que seria feita , e até ao próprio microcontrolador necessário para a tarefa.
+== Fundamentação do Hardware
 
-Primeiramentes foi feita a escolha do microcontrolador, 
-pois estes são o núcleo do dispositivo IoT, 
-resposável pelo processamento de dados e controle de periféricos. A escolha do microcontrolador adrquado depende de diferentes fatores
-como o consumo de energia, conectividade, compatibilidade com os sensores, facilidade de uso e o seu custo.
+O desenvolvimento do hardware envolveu diversos desafios, incluindo a seleção dos sensores necessários, a definição dos protocolos de comunicação, a escolha do tipo de transmissão e, principalmente, a determinação do microcontrolador mais adequado para a aplicação.
 
-ESP32 oferece conectividade Wi-Fi e Bluetooth integradas, com um consumo de energia moderado e diferentes modos de economia de energia.
-Compatível com interfaces I2C, SPI e UART. Também sendo fácil de programar e injetar código neste. e sendo mais robusto e conhecido. 
+=== Escolha do Microcontrolador
 
-STM32  destaca-se pelo consumo de energia muito baixo, com modos de ultrabaixo consumo. Oferece diversas opções de conectividade, incluindo LoRa com módulos adicionais. Compatível com I2C, SPI e UART, possui periféricos avançados e é programado principalmente através do STM32CubeMX.
+O microcontrolador é o núcleo do dispositivo IoT, responsável pelo processamento de dados e controle dos periféricos. Sua escolha depende de fatores como consumo de energia, conectividade, compatibilidade com os sensores, facilidade de desenvolvimento e custo. As principais opções avaliadas foram:
 
-Arduino MKR WAN 1310 é projetado para facilidade de uso, com conectividade LoRa integrada. Compatível com I2C, SPI e UART, é programado através do Arduino IDE. Inclui recursos como carregamento de bateria integrado, sendo ideal para aplicações que requerem conectividade LoRa e simplicidade no desenvolvimento.
+    - ESP32: Oferece conectividade Wi-Fi e Bluetooth integrada, possui consumo energético moderado com modos de economia de energia e é compatível com interfaces I2C, SPI e UART. Além disso, é amplamente utilizado e de fácil programação.
+    - STM32: Destaca-se pelo consumo extremamente baixo e oferece diversas opções de conectividade, incluindo LoRa com módulos adicionais. Conta com periféricos avançados e é programado principalmente através do STM32CubeMX.
+    - Arduino MKR WAN 1310: Projetado para facilidade de uso, já conta com conectividade LoRa integrada. Compatível com I2C, SPI e UART, inclui recursos como carregamento de bateria integrado e é programado via Arduino IDE.
+    - Adafruit Feather M0 LoRa: Compacto e leve, com conectividade LoRa integrada. Também compatível com I2C, SPI e UART, sendo programado via Arduino IDE, ideal para aplicações que requerem um dispositivo pequeno e eficiente.
 
-Adafruit Feather M0 LoRa é um microcontrolador leve e compacto, com conectividade LoRa integrada. Compatível com I2C, SPI e UART, é fácil de programar usando o Arduino IDE. Adequado para projetos que necessitam de um dispositivo compacto com conectividade LoRa.
+Após a análise dessas opções, o ESP32 foi escolhido por sua flexibilidade, facilidade de uso e custo reduzido, uma vez que a equipe já possuía acesso a esse microcontrolador.
+=== Seleção do Protocolo de Comunicação
 
-Dentre essas várias opções foi concluido que a ESP32 seria o microcontrolador que nosso projeto usaria. Devido ao fato de ser mais fléxivel para nós e ser um microcontralador mais acessivel financeiramente pois já tinhamos acesso a uma.
-#figure(
-  image("Figures/esp32_wroom_32e.png",width:50%),
-  caption: [
-   Fonte: Elaborada pelo autor
-  ],
-  supplement: "Figura"
-);
-Após a escolha do hardware foi necessário escolher qual o protocolo de comunicação que seria utiliza.
-Uma vez que é crucial para garantir a eficiência e confiablidade na transmissão de dados do dispositivo.
+A definição do protocolo de comunicação foi um aspecto crítico para garantir eficiência e confiabilidade na transmissão dos dados. As opções consideradas foram:
 
-CoAP foi projetado para dispositivos restritos, utilizando o modelo REST sobre UDP. Adequado para aplicações que requerem comunicação eficiente e baixa sobrecarga.
+    - CoAP: Utiliza o modelo REST sobre UDP e é adequado para dispositivos com recursos restritos, garantindo comunicação eficiente com baixa sobrecarga.
+    - HTTP: Amplamente utilizado, mas pode ser pesado para dispositivos com recursos limitados devido à sua sobrecarga. Mais indicado para aplicações com maior capacidade de processamento.
+    - LoRaWAN: Focado em comunicação de longa distância com baixo consumo de energia, sendo ideal para transmissão de dados a longas distâncias com baixa taxa de dados.
+    - MQTT: Protocolo leve, baseado no modelo de publicação/assinatura, ideal para dispositivos com recursos limitados e redes de baixa largura de banda.
 
-- HTTP é amplamente utilizado, porém pode ser pesado para dispositivos com recursos limitados devido à sua sobrecarga. Mais adequado para dispositivos com maior capacidade de processamento e energia.
+O protocolo MQTT foi escolhido devido à sua leveza, facilidade de implementação e familiaridade da equipe com sua utilização.
+=== Escolha dos Sensores
 
-- LoRaWAN é um protocolo para comunicação de longa distância com baixo consumo de energia, ideal para aplicações que requerem transmissão de dados a longas distâncias com baixa taxa de dados.
+Os sensores são componentes essenciais do projeto, permitindo a coleta de dados ambientais. A seleção foi baseada nas grandezas físicas a serem monitoradas, resultando na escolha dos seguintes dispositivos:
 
--MQTT é leve, ideal para dispositivos com recursos limitados e redes com largura de banda restrita. Utiliza um modelo de publicação/assinatura, permitindo comunicação eficiente entre dispositivos e servidores.
+    - DS18B20: Sensor de temperatura digital de alta precisão, utilizando comunicação 1-Wire.
+    - BMP280: Sensor barométrico que mede pressão atmosférica e temperatura, compatível com interfaces I2C e SPI.
+    - MQ-2 e MQ-7: Sensores para detecção de gases como GLP, metano e monóxido de carbono.
+    - DHT-22: Sensor para medição de temperatura e umidade relativa do ar, com comunicação digital simples.
+    - LDR: Resistor dependente de luz utilizado para medir a intensidade luminosa do ambiente.
 
-#figure(
-  image("Figures/mqtt-architecture.png",width:50%),
-  caption: [
-   Fonte: Elaborada pelo autor
-  ],
-  supplement: "Figura"
-);
-
-Dessa forma , foi escolhida MQTT , pois além de ser leve , tem uma implementação fácil se comparado com os outros e a equipe já havia trabalhado com este protocolo anteriormente.
-
-Por fim o componente mais importante para o projeto na parte do hardware, os sensores. Estes são os
-componentes fundamentais para o projeto, permitindo a coleta de dados do ambientes.
-A escolha dos sensores depende das grandezas físicas desejadas.
-Como o projéto trabalha com vários sensores foram escolhidos seguintes:
-DS18B20: Sensor de temperatura digital com alta precisão, utilizando comunicação 1-Wire.
-
-- BMP280: Sensor barométrico que mede pressão atmosférica e temperatura, utilizando interfaces I2C ou SPI.
-
-- MQ-2 e MQ-7: Sensores de gás que detectam a presença de gases como GLP, metano, monóxido de carbono, entre outros.
-
-- DHT-22: Sensor que mede temperatura e umidade relativa do ar, com comunicação digital simples.
-
-- LDR: Resistor dependente de luz utilizado para medir a intensidade luminosa do ambiente.
-
+Com essa configuração de hardware, o projeto garante um equilíbrio entre eficiência, confiabilidade e viabilidade econômica.
 == Fundamentação do Frontend
 
 O desenvolvimento do frontend do sistema modular de coleta de dados da qualidade do ar teve como objetivo principal criar uma interface intuitiva, responsiva e eficiente para a visualização dos dados coletados pelos sensores. Para alcançar esses objetivos, foram adotadas tecnologias modernas que garantem boa performance, escalabilidade e facilidade de manutenção.
@@ -157,35 +132,83 @@ A escolha das tecnologias e a estruturação do frontend proporcionam diversos b
 #pagebreak()
 = Metodologia
 
-A metodologia adotada para o desenvolvimento do sistema modular de coleta de dados da qualidade do ar envolveu um planejamento detalhado e uma execução integrada entre as diversas frentes do projeto, garantindo que o hardware, firmware, backend e frontend fossem desenvolvidos de maneira colaborativa e iterativa. 
+A metodologia adotada para o desenvolvimento do sistema modular de coleta de dados da qualidade do ar envolveu um planejamento detalhado e uma execução integrada entre as diversas frentes do projeto. Foram consideradas e sistematizadas as etapas de seleção, integração e validação dos componentes, garantindo que as escolhas fossem fundamentadas em critérios objetivos, embasamento teórico e na experiência prévia da equipe.
+== Levantamento de Requisitos e Planejamento
 
-== Etapas do Desenvolvimento
+  - Definição dos Objetivos:
+    Inicialmente, foram identificadas as necessidades do projeto, considerando a importância do monitoramento ambiental e a relevância dos dados coletados para a avaliação da qualidade do ar.
+  - Análise dos Conceitos:
+    Realizou-se uma revisão dos conceitos teóricos relacionados à Internet das Coisas (IoT), microcontroladores, protocolos de comunicação e sensores, a fim de embasar a escolha dos componentes e orientar a implementação de cada módulo.
+  - Identificação dos Componentes Essenciais:
+    Foram definidos os sensores a serem utilizados – DS18B20, BMP280, MQ-2, MQ-7, DHT-22 e LDR – bem como o microcontrolador ESP32, levando em consideração fatores como custo, flexibilidade, compatibilidade e disponibilidade.
+  - Estudo dos Protocolos de Comunicação:
+    A análise comparativa dos protocolos (CoAP, HTTP, LoRaWAN e MQTT) evidenciou que o MQTT era o mais adequado para o cenário de redes com largura de banda restrita, devido à sua leveza e eficiência na transmissão dos dados.
 
-=== Levantamento de Requisitos e Planejamento
+== Seleção e Desenvolvimento do Hardware
 
-Com base nos objetivos gerais e específicos, foi realizada uma análise detalhada das necessidades do projeto, considerando a importância do monitoramento ambiental e a relevância dos dados coletados. Inicialmente, foram analisados os objetivos e definidos os componentes essenciais, como os sensores DS18B20, BMP280, MQ-2, MQ-7, DHT-22 e LDR, além da escolha do microcontrolador ESP32, considerando fatores como custo, flexibilidade e compatibilidade. O estudo dos protocolos de comunicação revelou que o MQTT era o mais adequado, devido à sua leveza e eficiência na transmissão dos dados, especialmente em redes com largura de banda restrita.
+Esta etapa envolveu a escolha criteriosa dos componentes e a integração física dos mesmos:
+=== Escolha dos Componentes
 
-=== Desenvolvimento do Hardware
+  - Microcontrolador:
+    Foram avaliadas opções como ESP32, STM32, Arduino MKR WAN 1310 e Adafruit Feather M0 LoRa.
+    Critérios de avaliação: consumo de energia, conectividade (Wi-Fi, Bluetooth, LoRa), facilidade de programação e custo.
+    Decisão: O ESP32 foi escolhido por sua flexibilidade, facilidade de uso e custo reduzido, além de já estar disponível para a equipe.
 
-No desenvolvimento do hardware, os circuitos foram projetados e montados para integrar os sensores ao ESP32, com atenção especial à estabilidade dos sinais e à interface entre os dispositivos. Após a montagem, foram realizados testes iniciais para verificar o funcionamento individual dos sensores e a integridade da conexão com o microcontrolador, permitindo ajustes e refinamentos que garantiram a precisão na coleta dos dados ambientais.
+  - Protocolo de Comunicação:
+    Foram analisados diferentes protocolos quanto à eficiência e à sobrecarga para dispositivos com recursos limitados.
+    Decisão: O protocolo MQTT foi selecionado pela sua leveza, facilidade de implementação e pela compatibilidade com a infraestrutura do projeto.
 
-=== Implementação do Firmware
+  - Sensores:
+    A seleção dos sensores levou em conta as grandezas físicas a serem monitoradas e a precisão necessária para cada medição.
+    Componentes escolhidos:
+      -  DS18B20: Sensor de temperatura digital com alta precisão (comunicação 1-Wire).
+      -  BMP280: Sensor barométrico que mede pressão atmosférica e temperatura (interfaces I2C/SPI).
+      -  MQ-2 e MQ-7: Sensores para detecção de gases como GLP, metano e monóxido de carbono.
+      -  DHT-22: Sensor para medição de temperatura e umidade com interface digital.
+      -  LDR: Utilizado para medir a intensidade luminosa do ambiente.
 
-A implementação do firmware envolveu a criação de bibliotecas modulares para cada sensor, facilitando a manutenção e a expansão do sistema, além do desenvolvimento de código específico para o ESP32, que coletava os dados e os transmitia via MQTT para a plataforma central. Testes unitários asseguraram o correto funcionamento de cada módulo e a eficácia da comunicação entre os sensores e o microcontrolador.
+=== Projeto e Montagem do Circuito
 
-=== Desenvolvimento do Backend
+  - Desenho do Circuito:
+    Com os componentes selecionados, foi realizado o projeto do circuito, garantindo a correta interligação entre sensores, microcontrolador e demais periféricos, com atenção especial à estabilidade dos sinais.
+  -  Montagem e Testes Iniciais:
+    Após a montagem, foram executados testes individuais para verificar o funcionamento de cada sensor e a integridade das conexões, permitindo ajustes e refinamentos que garantiram a precisão na coleta dos dados.
 
-No backend, foi criado um banco de dados para armazenar todas as informações coletadas, o que possibilitou o gerenciamento, a consulta e a análise histórica dos dados. Paralelamente, desenvolvemos uma API utilizando a linguagem Go, escolhida por suas vantagens atuais, como alto desempenho, escalabilidade e suporte robusto para aplicações web modernas. A estruturação das mensagens MQTT, com a definição de formatos e símbolos delimitadores, foi essencial para a correta interpretação e armazenamento dos dados no banco.
+== Implementação do Firmware
 
-=== Desenvolvimento do Frontend
+  -  Desenvolvimento do Firmware:
+    Foi criado um firmware específico para o ESP32, que integra a leitura dos sensores e a transmissão dos dados via MQTT.
+  -  Modularização:
+    Bibliotecas modulares foram desenvolvidas para cada sensor, facilitando futuras manutenções e expansões do sistema.
+  -  Testes Unitários:
+    Cada módulo foi testado individualmente para assegurar seu funcionamento correto e a eficácia da comunicação entre os sensores e o microcontrolador.
 
-Para a camada de frontend, projetamos uma interface web intuitiva e responsiva que proporcionasse uma experiência interativa ao usuário. A escolha das tecnologias React JS e Tailwind CSS permitiu uma construção ágil, moderna e de alta performance, facilitando a manutenção e a evolução da interface. A integração entre o frontend e a API garantiu que os dados fossem exibidos em tempo real e que análises históricas pudessem ser realizadas com facilidade. Testes de usabilidade foram realizados para identificar possíveis melhorias e assegurar a facilidade de uso da plataforma.
+== Desenvolvimento do Backend e Frontend
 
-=== Integração e Validação do Sistema
+  -  Backend:
+        Foi implementado um banco de dados para o armazenamento das informações coletadas, permitindo o gerenciamento, consulta e análise histórica dos dados.
+        Uma API foi desenvolvida em Go, escolhida por seu desempenho e escalabilidade, garantindo a correta interpretação das mensagens MQTT e seu armazenamento.
+  -  Frontend:
+        Desenvolvida uma interface web intuitiva e responsiva utilizando React JS e Tailwind CSS, que possibilita a visualização em tempo real e a análise histórica dos dados.
+        Testes de usabilidade foram conduzidos para garantir uma experiência interativa e eficiente para o usuário.
 
-Ao final, a integração de todas as camadas do sistema foi cuidadosamente validada por meio de testes que verificaram a comunicação eficiente via MQTT e a robustez do fluxo completo de dados, desde a coleta até a exibição. Essa abordagem colaborativa e iterativa permitiu a identificação precoce de problemas e a implementação de soluções eficazes, resultando em um sistema robusto, escalável e capaz de atender aos desafios do monitoramento da qualidade do ar com tecnologias modernas e eficientes.
+== Integração e Validação do Sistema
 
-A metodologia adotada enfatizou a importância do trabalho em equipe e da comunicação constante entre as diversas frentes do projeto. Reuniões periódicas, revisões de progresso e feedback contínuo foram essenciais para alinhar as expectativas e solucionar desafios de forma colaborativa, garantindo que todas as etapas se integrassem harmoniosamente.
+  -  Integração:
+    Todas as camadas do sistema – hardware, firmware, backend e frontend – foram integradas e validadas de forma colaborativa.
+    Testes de Integração:
+    Foram realizados testes em ambiente controlado para verificar a comunicação via MQTT e a robustez do fluxo completo de dados, desde a coleta até a exibição.
+  -  Ajustes e Otimizações:
+    Com base nos resultados dos testes, foram implementadas melhorias que asseguraram maior eficiência e robustez do sistema.
+
+== Documentação e Gestão do Projeto
+
+  -  Controle de Versões:
+    O desenvolvimento foi acompanhado através de versionamento no GitHub, permitindo rastreabilidade e colaboração contínua.
+  -  Reuniões e Feedback:
+    Reuniões periódicas e revisões de progresso foram realizadas para alinhar expectativas, identificar problemas precocemente e implementar soluções eficazes.
+  -  Registro e Análise:
+    Toda a metodologia e as decisões técnicas foram documentadas, permitindo uma análise crítica dos resultados e a identificação de pontos de melhoria para projetos futuros.
 
 
 
