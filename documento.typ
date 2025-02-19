@@ -128,6 +128,8 @@ A escolha das tecnologias e a estruturação do frontend proporcionam diversos b
 - Modularidade: A abordagem baseada em componentes facilita a manutenção e expansão da aplicação.
 
 - Atualização em tempo real: Permitindo que os dados sejam exibidos de forma dinâmica, sem a necessidade de recarregar a página
+== Fundamentação do Backend
+
 
 #pagebreak()
 = Metodologia
@@ -214,6 +216,21 @@ Esta etapa envolveu a escolha criteriosa dos componentes e a integração físic
 
 #pagebreak()
 = Resultados e Discussão
+
+== Hardware
+
+=== Componentes
+
+=== Conexão
+
+=== transmissão
+
+== Backend
+
+== Frontend
+
+== Resultado Geral
+
 
 #pagebreak()
 = Considerações Finais
