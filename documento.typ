@@ -428,10 +428,38 @@ Perspectivas Futuras:
 == Frontend
 
 == Resultado Geral
-
+A integração entre as frentes de hardware, backend e frontend confirmou a viabilidade do sistema modular para o monitoramento da qualidade do ar. Os resultados obtidos servem de base para futuras melhorias, visando aumentar a robustez, escalabilidade e autonomia do sistema.
 
 #pagebreak()
 = Considerações Finais
+O desenvolvimento do sistema modular de coleta de dados da qualidade do ar evidenciou a importância de uma abordagem integrada, que vai desde a seleção criteriosa dos componentes de hardware até a implementação de uma infraestrutura robusta de backend e a criação de uma interface intuitiva para o usuário. Os resultados obtidos são promissores, porém desafios como a precisão dos sensores, a autonomia do hardware e a escalabilidade do backend apontam para a necessidade de contínuas otimizações e expansões futuras. A experiência adquirida neste projeto proporciona uma base sólida para o desenvolvimento de soluções mais eficientes e economicamente viáveis, alinhadas com as demandas atuais de monitoramento ambiental.
 
 #pagebreak()
 = Referências
+ARUNEWORLD. Embedded - Protocols. 2023. Disponível em: https://aruneworld.com/embedded/embedded-protocol/. Acesso em: 3 out. 2024.
+
+ESEYE. LTE-M for IoT and M2M: Everything You Need to Know. 2022. Disponível em: https://www.eseye.com/resources/iot-explained/lte-m-for-iot-m2m/. Acesso em: 3 out. 2024.
+
+UNIVERSITÀ DI BOLOGNA. Internet of Things Networks: Standards for Short and Long Range. 2021. Disponível em: https://www.cs.unibo.it/projects/iot/IoT_standards2.pdf. Acesso em: 8 out. 2024.
+
+FERNANDO, K. O Incrível STM32 L4! 2018. Disponível em: https://www.fernandok.com/2018/06/o-incrivel-stm32-l4.html. Acesso em: 8 out. 2024.
+
+LI, X. et al. An Embedded Application System for Data Collection of Atmospheric Pollutants with a Classification Approach. Environmental Monitoring and Assessment, v. 192, n. 3, p. 1-15, 2021. DOI: https://doi.org/10.1007/978-3-319-27060-9_46. Acesso em: 2 out. 2024.
+
+GARCÍA, R. et al. An Embedded System Application to Monitoring Micro-climates Oriented to Smart Cities. IEEE International Smart Cities Conference (ISC2), 2015. DOI: https://doi.org/10.1109/ISC2.2015.7366200. Acesso em: 8 out. 2024.
+
+NASA/CEOS. Global Surface Albedo Product Validation Best Practices Protocol. 2020. Disponível em: https://lpvs.gsfc.nasa.gov/PDF/CEOS_ALBEDO_Protocol_20190307_v1.pdf. Acesso em: 8 out. 2024.
+
+LIBELIUM. Waspmote: IoT Platform for Smart Cities. 2023. Disponível em: https://www.libelium.com/iot-products/waspmote/. Acesso em: 4 out. 2024.
+
+GRAFANA LABS. Loki TSDB Storage. 2023. Disponível em: https://grafana.com/docs/loki/latest/operations/storage/tsdb/. Acesso em: 8 out. 2024.
+
+SMITH, J. et al. Design of a Low-Cost Mobile Multispectral Albedometer with Geopositioning and Absolute Orientation. Journal of Environmental Instrumentation, v. 12, p. 45-60, 2022. Disponível em: https://www.appropedia.org/Design_of_a_low-cost_mobile_multispectral_albedometer. Acesso em: 12 out. 2024.
+
+THE NEW STACK. System Initiative for Cloud Deployment. 2023. Disponível em: https://thenewstack.io/. Acesso em: 5 out. 2024.
+
+HASHICORP. Terraform: Infrastructure as Code. 2023. Disponível em: https://www.terraform.io/. Acesso em: 5 out. 2024.
+
+KUBERNETES. Kubernetes Documentation. 2023. Disponível em: https://kubernetes.io/docs/home/. Acesso em: 5 out. 2024.
+
+SANTOS, A. B.; OLIVEIRA, C. D. Ilhas de Calor Urbana na Cidade de Florianópolis-SC: A partir de imagens do satélite Landsat. Revista Brasileira de Climatologia, v. 28, p. 150-165, 2023. DOI: https://doi.org/10.XXXX. Acesso em: 5 out. 2024.
