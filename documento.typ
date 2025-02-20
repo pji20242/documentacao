@@ -77,6 +77,61 @@
       - LDR: Resistor dependente de luz utilizado para medir a intensidade luminosa do ambiente.
 
   Com essa configuração de hardware, o projeto garante um equilíbrio entre eficiência, confiabilidade e viabilidade econômica.
+  
+== Fundamentação Teórica do Backend
+
+O presente sistema de monitoramento da qualidade do ar apresenta uma arquitetura modular, cuja parte de backend integra os elementos necessários para o processamento, armazenamento e disponibilização dos dados provenientes dos dispositivos IoT. A seguir, descreve-se os principais componentes teóricos que embasam o desenvolvimento do backend.
+
+=== MQTT Broker
+
+O MQTT (Message Queuing Telemetry Transport) é um protocolo leve de publicação/assinatura, ideal para a comunicação entre dispositivos com recursos limitados. No contexto deste projeto, o MQTT Broker é responsável por:
+
+- Estabelecer a comunicação em tempo real entre os dispositivos de campo e o backend;
+
+- Garantir baixa latência e overhead reduzido, mesmo em redes de baixa largura de banda;
+
+- Facilitar a escalabilidade do sistema por meio do roteamento eficiente das mensagens.
+
+=== Backend Connector
+
+O Backend Connector atua como a ponte entre o MQTT Broker e os demais módulos do sistema. Sua função é processar, transformar e direcionar as mensagens recebidas para o armazenamento ou para a exposição via API. Dentre suas atribuições, destaca-se:
+
+- A integração dos dados oriundos dos sensores com o banco de dados;
+
+- A implementação de rotinas de pré-processamento e validação das mensagens;
+
+- O encaminhamento das informações para a API que será consumida pelo frontend.
+
+=== BANCO DE DADOS
+
+O banco de dados constitui o repositório central de armazenamento das informações coletadas. Sua escolha baseou-se na necessidade de:
+
+- Armazenamento confiável e estruturado dos dados históricos e em tempo real;
+
+- Suporte a consultas rápidas e escaláveis, mediante a utilização de soluções relacionais ou NoSQL;
+
+- Manutenção da integridade e segurança das informações.
+
+=== API FRONTEND CONNECTOR
+
+A API Frontend Connector é a interface que disponibiliza os dados armazenados para consumo pelas aplicações do frontend. Esta camada é implementada, geralmente, com princípios RESTful, visando:
+
+- A padronização e segurança no acesso aos dados;
+
+- A interoperabilidade com aplicações externas e dispositivos móveis;
+
+- A exposição de endpoints para consulta, atualização e gerenciamento dos dados.
+
+=== FRONTEND HTTP SERVER (REVERSE PROXY)
+
+O Frontend HTTP Server, atuando como um reverse proxy, gerencia as requisições oriundas do frontend, assegurando:
+
+- O balanceamento de carga e a distribuição eficiente das requisições;
+
+- A implementação de mecanismos de cache e segurança;
+
+- A facilitação do acesso a conteúdos estáticos e dinâmicos, integrando o sistema de forma transparente.
+  
   == Fundamentação do Frontend
 
   O desenvolvimento do frontend do sistema modular de coleta de dados da qualidade do ar teve como objetivo principal criar uma interface intuitiva, responsiva e eficiente para a visualização dos dados coletados pelos sensores. Para alcançar esses objetivos, foram adotadas tecnologias modernas que garantem boa performance, escalabilidade e facilidade de manutenção.
@@ -128,92 +183,157 @@
   - Modularidade: A abordagem baseada em componentes facilita a manutenção e expansão da aplicação.
 
   - Atualização em tempo real: Permitindo que os dados sejam exibidos de forma dinâmica, sem a necessidade de recarregar a página
-  == Fundamentação do Backend
+#pagebreak()
+= Metodologia
+
+A metodologia adotada para o desenvolvimento do sistema modular de coleta de dados da qualidade do ar envolveu um planejamento detalhado e uma execução integrada entre as diversas frentes do projeto. Foram consideradas e sistematizadas as etapas de seleção, integração e validação dos componentes, garantindo que as escolhas fossem fundamentadas em critérios objetivos, embasamento teórico e na experiência prévia da equipe.
+== Levantamento de Requisitos e Planejamento
+
+- Definição dos Objetivos:
+Inicialmente, foram identificadas as necessidades do projeto, considerando a importância do monitoramento ambiental e a relevância dos dados coletados para a avaliação da qualidade do ar.
+- Análise dos Conceitos:
+Realizou-se uma revisão dos conceitos teóricos relacionados à Internet das Coisas (IoT), microcontroladores, protocolos de comunicação e sensores, a fim de embasar a escolha dos componentes e orientar a implementação de cada módulo.
+- Identificação dos Componentes Essenciais:
+Foram definidos os sensores a serem utilizados – DS18B20, BMP280, MQ-2, MQ-7, DHT-22 e LDR – bem como o microcontrolador ESP32, levando em consideração fatores como custo, flexibilidade, compatibilidade e disponibilidade.
+- Estudo dos Protocolos de Comunicação:
+A análise comparativa dos protocolos (CoAP, HTTP, LoRaWAN e MQTT) evidenciou que o MQTT era o mais adequado para o cenário de redes com largura de banda restrita, devido à sua leveza e eficiência na transmissão dos dados.
+
+== Seleção e Desenvolvimento do Hardware
+
+Esta etapa envolveu a escolha criteriosa dos componentes e a integração física dos mesmos:
+=== Escolha dos Componentes
+
+- Microcontrolador:
+Foram avaliadas opções como ESP32, STM32, Arduino MKR WAN 1310 e Adafruit Feather M0 LoRa.
+Critérios de avaliação: consumo de energia, conectividade (Wi-Fi, Bluetooth, LoRa), facilidade de programação e custo.
+Decisão: O ESP32 foi escolhido por sua flexibilidade, facilidade de uso e custo reduzido, além de já estar disponível para a equipe.
+
+- Protocolo de Comunicação:
+Foram analisados diferentes protocolos quanto à eficiência e à sobrecarga para dispositivos com recursos limitados.
+Decisão: O protocolo MQTT foi selecionado pela sua leveza, facilidade de implementação e pela compatibilidade com a infraestrutura do projeto.
+
+- Sensores:
+A seleção dos sensores levou em conta as grandezas físicas a serem monitoradas e a precisão necessária para cada medição.
+Componentes escolhidos:
+-  DS18B20: Sensor de temperatura digital com alta precisão (comunicação 1-Wire).
+-  BMP280: Sensor barométrico que mede pressão atmosférica e temperatura (interfaces I2C/SPI).
+-  MQ-2 e MQ-7: Sensores para detecção de gases como GLP, metano e monóxido de carbono.
+-  DHT-22: Sensor para medição de temperatura e umidade com interface digital.
+-  LDR: Utilizado para medir a intensidade luminosa do ambiente.
+
+=== Projeto e Montagem do Circuito
+
+- Desenho do Circuito:
+Com os componentes selecionados, foi realizado o projeto do circuito, garantindo a correta interligação entre sensores, microcontrolador e demais periféricos, com atenção especial à estabilidade dos sinais.
+-  Montagem e Testes Iniciais:
+Após a montagem, foram executados testes individuais para verificar o funcionamento de cada sensor e a integridade das conexões, permitindo ajustes e refinamentos que garantiram a precisão na coleta dos dados.
+
+== Implementação do Firmware
+
+-  Desenvolvimento do Firmware:
+Foi criado um firmware específico para o ESP32, que integra a leitura dos sensores e a transmissão dos dados via MQTT.
+-  Modularização:
+Bibliotecas modulares foram desenvolvidas para cada sensor, facilitando futuras manutenções e expansões do sistema.
+-  Testes Unitários:
+Cada módulo foi testado individualmente para assegurar seu funcionamento correto e a eficácia da comunicação entre os sensores e o microcontrolador.
+
+== Planejamento e Levantamento de Requisitos
+
+Inicialmente, foram definidos os requisitos funcionais e não funcionais do sistema, considerando a necessidade de:
+
+- Recepção e processamento de mensagens em tempo real dos dispositivos IoT;
+
+- Armazenamento seguro e escalável dos dados coletados;
+
+- Disponibilização dos dados para aplicações externas e para o frontend;
+
+- Garantir a robustez e a interoperabilidade entre os módulos do backend.
+
+== Desenvolvimento Modular
+
+O desenvolvimento foi dividido em módulos, conforme descrito abaixo:
+
+=== Implementação do MQTT Broker
+
+- Configuração do ambiente para recepção de mensagens dos dispositivos;
+
+- Realização de testes de performance para validar a comunicação em tempo real;
+
+- Ajustes na configuração para assegurar baixa latência e alta disponibilidade.
+
+=== Desenvolvimento do Backend Connector
+
+- Criação de rotinas para processamento e roteamento das mensagens recebidas;
+
+- Integração com o banco de dados para armazenamento dos dados;
+
+- Implementação de mecanismos de validação e transformação dos dados.
+
+=== Configuração do Banco de Dados
+
+- Escolha do modelo de banco de dados (relacional ou NoSQL) de acordo com a necessidade de escalabilidade;
+
+- Estruturação dos esquemas de dados e implementação de índices para otimização das consultas;
+
+- Testes de integridade e desempenho do armazenamento.
+
+=== Desenvolvimento da API Frontend Connector
+
+- Implementação dos endpoints seguindo boas práticas de desenvolvimento (RESTful ou GraphQL);
+
+- Garantia da segurança dos dados por meio de mecanismos de autenticação e autorização;
+
+- Integração com o frontend para exposição dos dados de forma padronizada.
+
+=== Configuração do Frontend HTTP Server (Reverse Proxy)
+
+- Implantação do servidor HTTP para gerenciamento das requisições do frontend;
+
+- Implementação de funcionalidades de cache e balanceamento de carga;
+
+- Configuração de segurança adicional para proteger as comunicações.
+
+=== Testes e Validação
+
+ Foram conduzidos testes unitários e de integração em cada módulo, com o objetivo de:
+
+- Validar o fluxo de dados, desde a entrada via MQTT até a disponibilização via API;
+
+- Identificar e corrigir gargalos de desempenho;
+
+- Assegurar a robustez e a escalabilidade do sistema sob diferentes cargas de trabalho.
+
+=== Deploy e Gestão
+
+Utilizou-se controle de versões (Git) e gerenciamento de releases (exemplo: release beta_1.0.0) para acompanhar o desenvolvimento. Adicionalmente, a utilização de containers (Docker) e orquestração (Kubernetes) foi considerada para facilitar o deploy e a escalabilidade da solução.
 
 
-  #pagebreak()
-  = Metodologia
+== Desenvolvimento do Backend e Frontend
 
-  A metodologia adotada para o desenvolvimento do sistema modular de coleta de dados da qualidade do ar envolveu um planejamento detalhado e uma execução integrada entre as diversas frentes do projeto. Foram consideradas e sistematizadas as etapas de seleção, integração e validação dos componentes, garantindo que as escolhas fossem fundamentadas em critérios objetivos, embasamento teórico e na experiência prévia da equipe.
-  == Levantamento de Requisitos e Planejamento
+-  Backend:
+Foi implementado um banco de dados para o armazenamento das informações coletadas, permitindo o gerenciamento, consulta e análise histórica dos dados.
+Uma API foi desenvolvida em Go, escolhida por seu desempenho e escalabilidade, garantindo a correta interpretação das mensagens MQTT e seu armazenamento.
+-  Frontend:
+Desenvolvida uma interface web intuitiva e responsiva utilizando React JS e Tailwind CSS, que possibilita a visualização em tempo real e a análise histórica dos dados.
+Testes de usabilidade foram conduzidos para garantir uma experiência interativa e eficiente para o usuário.
 
-    - Definição dos Objetivos:
-      Inicialmente, foram identificadas as necessidades do projeto, considerando a importância do monitoramento ambiental e a relevância dos dados coletados para a avaliação da qualidade do ar.
-    - Análise dos Conceitos:
-      Realizou-se uma revisão dos conceitos teóricos relacionados à Internet das Coisas (IoT), microcontroladores, protocolos de comunicação e sensores, a fim de embasar a escolha dos componentes e orientar a implementação de cada módulo.
-    - Identificação dos Componentes Essenciais:
-      Foram definidos os sensores a serem utilizados – DS18B20, BMP280, MQ-2, MQ-7, DHT-22 e LDR – bem como o microcontrolador ESP32, levando em consideração fatores como custo, flexibilidade, compatibilidade e disponibilidade.
-    - Estudo dos Protocolos de Comunicação:
-      A análise comparativa dos protocolos (CoAP, HTTP, LoRaWAN e MQTT) evidenciou que o MQTT era o mais adequado para o cenário de redes com largura de banda restrita, devido à sua leveza e eficiência na transmissão dos dados.
+== Integração e Validação do Sistema
 
-  == Seleção e Desenvolvimento do Hardware
+-  Integração:
+Todas as camadas do sistema – hardware, firmware, backend e frontend – foram integradas e validadas de forma colaborativa.
+Testes de Integração:
+Foram realizados testes em ambiente controlado para verificar a comunicação via MQTT e a robustez do fluxo completo de dados, desde a coleta até a exibição.
+-  Ajustes e Otimizações:
+Com base nos resultados dos testes, foram implementadas melhorias que asseguraram maior eficiência e robustez do sistema.
 
-  Esta etapa envolveu a escolha criteriosa dos componentes e a integração física dos mesmos:
-  === Escolha dos Componentes
+== Documentação e Gestão do Projeto
 
-    - Microcontrolador:
-      Foram avaliadas opções como ESP32, STM32, Arduino MKR WAN 1310 e Adafruit Feather M0 LoRa.
-      Critérios de avaliação: consumo de energia, conectividade (Wi-Fi, Bluetooth, LoRa), facilidade de programação e custo.
-      Decisão: O ESP32 foi escolhido por sua flexibilidade, facilidade de uso e custo reduzido, além de já estar disponível para a equipe.
-
-    - Protocolo de Comunicação:
-      Foram analisados diferentes protocolos quanto à eficiência e à sobrecarga para dispositivos com recursos limitados.
-      Decisão: O protocolo MQTT foi selecionado pela sua leveza, facilidade de implementação e pela compatibilidade com a infraestrutura do projeto.
-
-    - Sensores:
-      A seleção dos sensores levou em conta as grandezas físicas a serem monitoradas e a precisão necessária para cada medição.
-      Componentes escolhidos:
-        -  DS18B20: Sensor de temperatura digital com alta precisão (comunicação 1-Wire).
-        -  BMP280: Sensor barométrico que mede pressão atmosférica e temperatura (interfaces I2C/SPI).
-        -  MQ-2 e MQ-7: Sensores para detecção de gases como GLP, metano e monóxido de carbono.
-        -  DHT-22: Sensor para medição de temperatura e umidade com interface digital.
-        -  LDR: Utilizado para medir a intensidade luminosa do ambiente.
-
-  === Projeto e Montagem do Circuito
-
-    - Desenho do Circuito:
-      Com os componentes selecionados, foi realizado o projeto do circuito, garantindo a correta interligação entre sensores, microcontrolador e demais periféricos, com atenção especial à estabilidade dos sinais.
-    -  Montagem e Testes Iniciais:
-      Após a montagem, foram executados testes individuais para verificar o funcionamento de cada sensor e a integridade das conexões, permitindo ajustes e refinamentos que garantiram a precisão na coleta dos dados.
-
-  == Implementação do Firmware
-
-    -  Desenvolvimento do Firmware:
-      Foi criado um firmware específico para o ESP32, que integra a leitura dos sensores e a transmissão dos dados via MQTT.
-    -  Modularização:
-      Bibliotecas modulares foram desenvolvidas para cada sensor, facilitando futuras manutenções e expansões do sistema.
-    -  Testes Unitários:
-      Cada módulo foi testado individualmente para assegurar seu funcionamento correto e a eficácia da comunicação entre os sensores e o microcontrolador.
-
-  == Desenvolvimento do Backend e Frontend
-
-    -  Backend:
-          Foi implementado um banco de dados para o armazenamento das informações coletadas, permitindo o gerenciamento, consulta e análise histórica dos dados.
-          Uma API foi desenvolvida em Go, escolhida por seu desempenho e escalabilidade, garantindo a correta interpretação das mensagens MQTT e seu armazenamento.
-    -  Frontend:
-          Desenvolvida uma interface web intuitiva e responsiva utilizando React JS e Tailwind CSS, que possibilita a visualização em tempo real e a análise histórica dos dados.
-          Testes de usabilidade foram conduzidos para garantir uma experiência interativa e eficiente para o usuário.
-
-  == Integração e Validação do Sistema
-
-    -  Integração:
-      Todas as camadas do sistema – hardware, firmware, backend e frontend – foram integradas e validadas de forma colaborativa.
-      Testes de Integração:
-      Foram realizados testes em ambiente controlado para verificar a comunicação via MQTT e a robustez do fluxo completo de dados, desde a coleta até a exibição.
-    -  Ajustes e Otimizações:
-      Com base nos resultados dos testes, foram implementadas melhorias que asseguraram maior eficiência e robustez do sistema.
-
-  == Documentação e Gestão do Projeto
-
-    -  Controle de Versões:
-      O desenvolvimento foi acompanhado através de versionamento no GitHub, permitindo rastreabilidade e colaboração contínua.
-    -  Reuniões e Feedback:
-      Reuniões periódicas e revisões de progresso foram realizadas para alinhar expectativas, identificar problemas precocemente e implementar soluções eficazes.
-    -  Registro e Análise:
-      Toda a metodologia e as decisões técnicas foram documentadas, permitindo uma análise crítica dos resultados e a identificação de pontos de melhoria para projetos futuros.
-
-
-
+-  Controle de Versões:
+O desenvolvimento foi acompanhado através de versionamento no GitHub, permitindo rastreabilidade e colaboração contínua.
+-  Reuniões e Feedback:
+Reuniões periódicas e revisões de progresso foram realizadas para alinhar expectativas, identificar problemas precocemente e implementar soluções eficazes.
+-  Registro e Análise:
+Toda a metodologia e as decisões técnicas foram documentadas, permitindo uma análise crítica dos resultados e a identificação de pontos de melhoria para projetos futuros.
 #pagebreak()
 = Resultados e Discussão
 
@@ -267,7 +387,43 @@ Apesar da eficácia do MQTT no ambiente de testes, a escalabilidade e robustez d
 Implementar rotinas de economia de energia (por exemplo, funções de sleep no firmware) para otimizar o consumo e prolongar a autonomia do dispositivo.
 
 
-== Backend
+
+
+== Resultados Backend
+A seguir, apresentam-se os resultados obtidos com o backend, bem como as discussões acerca das limitações e das perspectivas futuras.
+
+=== Resultados Obtidos
+
+- MQTT Broker:Foi possível estabelecer uma comunicação em tempo real com baixa latência, garantindo a transmissão contínua dos dados dos dispositivos IoT para o backend.
+
+- Backend Connector:O processamento e o roteamento das mensagens ocorreram de forma eficiente, integrando os dados ao banco de dados e assegurando a atualização constante dos registros.
+
+- Banco de Dados:Os dados foram armazenados de forma estruturada e segura, permitindo consultas históricas e em tempo real, atendendo aos requisitos de escalabilidade e integridade.
+
+- API Frontend Connector:Os endpoints desenvolvidos possibilitaram o acesso seguro e padronizado aos dados, demonstrando compatibilidade e integração satisfatória com o frontend.
+
+- Frontend HTTP Server (Reverse Proxy):A configuração do servidor permitiu o balanceamento de carga e a otimização do desempenho, contribuindo para a segurança e a eficiência na entrega dos conteúdos.
+
+=== Discussões e Perspectivas Futuras
+
+Apesar dos resultados promissores, alguns desafios e limitações foram identificados:
+
+- Desempenho do MQTT Broker:Em cenários de alta demanda, a performance pode ser otimizada para reduzir eventuais gargalos na comunicação.
+
+- Integração do Backend Connector com o Banco de Dados:Sob elevado volume de mensagens, podem ocorrer sobrecargas que exigirão ajustes na estrutura de dados e na capacidade de processamento.
+
+- Segurança e Escalabilidade da API e do Servidor HTTP:É necessário investir em mecanismos adicionais de segurança e em testes de carga para garantir a resiliência do sistema em ambientes de produção.
+
+Perspectivas Futuras:
+
+- Otimização dos módulos para reduzir latências e aumentar a robustez;
+
+- Exploração de bancos de dados híbridos ou distribuídos para suportar o crescimento do volume de dados;
+
+- Implementação de testes de carga e segurança para aprimorar a confiabilidade do sistema;
+
+- Integração de novas funcionalidades, como análise preditiva por meio de Inteligência Artificial, ampliando a capacidade de interpretação dos dados e a interoperabilidade com outros sistemas.
+
 
 == Frontend
 
