@@ -11,7 +11,7 @@
   #show: doc => report(
     title: "Sistema modular de coleta \n de dados da qualidade do ar",
     subtitle: "",
-    authors: ("Arthur Cadore Matuella Barcella","Gustavo Paulo","Matheus Pires Salaza","Rhenzo Hideki Silva Kajikawa" ),
+    authors: ("Arthur Cadore Matuella Barcella","Gabriel Luiz Espindola","Gustavo Paulo","Matheus Pires Salaza","Rhenzo Hideki Silva Kajikawa" ),
     date: "",
     doc,
   )
