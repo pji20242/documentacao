@@ -334,7 +334,7 @@ O desenvolvimento foi acompanhado através de versionamento no GitHub, permitind
 Reuniões periódicas e revisões de progresso foram realizadas para alinhar expectativas, identificar problemas precocemente e implementar soluções eficazes.
 -  Registro e Análise:
 Toda a metodologia e as decisões técnicas foram documentadas, permitindo uma análise crítica dos resultados e a identificação de pontos de melhoria para projetos futuros.
-#pagebreak()
+
 = Resultados e Discussão
 
 == Resultados do Hardware
