@@ -427,6 +427,12 @@ Perspectivas Futuras:
 
 == Frontend
 
+O desenvolvimento do frontend resultou em uma interface intuitiva, responsiva e altamente eficaz para a visualização e análise dos dados coletados pelos sensores integrados aos dispositivos IoT. A aplicação permite que usuários visualizem séries temporais específicas de cada sensor individualmente, de forma clara e interativa, facilitando significativamente a compreensão dos dados ambientais.
+
+Foram criados gráficos dinâmicos que exibem os dados históricos e em tempo real coletados pelos sensores. Portanto, os usuários podem visualizar em tempo real as medições de todos os sensores de seus dispositivos, permitindo uma análise detalhada das tendências e padrões ambientais ao longo do tempo. 
+
+
+
 == Resultado Geral
 A integração entre as frentes de hardware, backend e frontend confirmou a viabilidade do sistema modular para o monitoramento da qualidade do ar. Os resultados obtidos servem de base para futuras melhorias, visando aumentar a robustez, escalabilidade e autonomia do sistema.
 
