@@ -102,7 +102,7 @@ O Backend Connector atua como a ponte entre o MQTT Broker e os demais módulos d
 
 - O encaminhamento das informações para a API que será consumida pelo frontend.
 
-=== BANCO DE DADOS
+=== Banco de Dados
 
 O banco de dados constitui o repositório central de armazenamento das informações coletadas. Sua escolha baseou-se na necessidade de:
 
@@ -112,7 +112,7 @@ O banco de dados constitui o repositório central de armazenamento das informaç
 
 - Manutenção da integridade e segurança das informações.
 
-=== API FRONTEND CONNECTOR
+=== API Frontend Conector
 
 A API Frontend Connector é a interface que disponibiliza os dados armazenados para consumo pelas aplicações do frontend. Esta camada é implementada, geralmente, com princípios RESTful, visando:
 
@@ -122,7 +122,7 @@ A API Frontend Connector é a interface que disponibiliza os dados armazenados p
 
 - A exposição de endpoints para consulta, atualização e gerenciamento dos dados.
 
-=== FRONTEND HTTP SERVER (REVERSE PROXY)
+=== Frontend HTTP Server (Reverse Proxy)
 
 O Frontend HTTP Server, atuando como um reverse proxy, gerencia as requisições oriundas do frontend, assegurando:
 
